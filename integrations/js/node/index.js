@@ -49,7 +49,7 @@ const path = require('path');
         new Uint8Array(main.memory.buffer, str1Ptr, str1Utf8Length).set(str1Utf8);
         new Uint8Array(main.memory.buffer, str2Ptr, str2Utf8Length).set(str2Utf8);
 
-        const htmlPtr = main.test(str1Ptr, str2Ptr);
+        const htmlPtr = main.render(str1Ptr, str2Ptr);
         const memory = new Uint8Array(main.memory.buffer, htmlPtr);
         const memoryLength = memory.length;
 

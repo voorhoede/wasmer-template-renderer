@@ -23,7 +23,7 @@ pub fn dealloc(pointer: *mut c_void, capacity: usize) {
 }
 
 #[no_mangle]
-pub fn test(template: *mut c_char, data: *mut c_char) -> *mut c_char {
+pub fn render(template: *mut c_char, data: *mut c_char) -> *mut c_char {
     let template = unsafe { CStr::from_ptr(template).to_bytes().to_vec() };
     let template = match str::from_utf8(&template) {
         Ok(v) => v,
