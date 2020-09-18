@@ -1,0 +1,10 @@
+{
+  "blogger": "Arash",
+  "title": "Rendering from Wasm",
+  "likes": 5,
+  "public": false,
+  "data": {
+    "html": "<p><strong>Wasm!</strong></p>"
+  },
+  "likedBy": ["Remco", "Arash"]
+}
