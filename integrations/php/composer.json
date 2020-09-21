@@ -1,0 +1,15 @@
+{
+    "name": "arashpaknezad/php",
+    "autoload": {
+      "psr-4": {
+          "Wasm\\": "lib/"
+      }
+    },
+    "require": {
+    },
+    "scripts": {
+      "start": [
+          " php -d extension=wasm RenderExample.php"
+      ]
+    }
+}
