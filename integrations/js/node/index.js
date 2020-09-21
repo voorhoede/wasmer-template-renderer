@@ -5,6 +5,7 @@ const path = require('path');
     try {
         const wasmFilePath = path.resolve(__dirname, '../../../target/wasm32-unknown-unknown/debug/wasmer_template_renderer.wasm');
         const buffer = await fs.readFile(wasmFilePath);
+
         const {instance} = await WebAssembly.instantiate(buffer);
         const main = instance.exports;
 
@@ -27,24 +28,17 @@ const path = require('path');
         new Uint8Array(main.memory.buffer, jsonPtr, jsonUtf8Length).set(jsonUtf8);
 
         const htmlPtr = main.render(postTemplatePtr, jsonPtr);
+
         const memory = new Uint8Array(main.memory.buffer, htmlPtr);
-        const memoryLength = memory.length;
+        const htmlBytes = [];
 
-        const html = [];
-        let nth = 0
-
-        while (nth < memoryLength) {
-            const byte = memory[nth];
-
-            if (byte === 0) {
-                break;
-            }
-
-            html.push(byte)
-            nth++
+        for (const byte of memory) {
+            if (byte === 0) break;
+            htmlBytes.push(byte)
         }
 
-        console.log(new TextDecoder().decode(new Uint8Array(html)))
+        const html = new TextDecoder().decode(new Uint8Array(htmlBytes));
+        console.log(html)
 
         main.dealloc(postTemplatePtr, postTemplateUtf8Length);
         main.dealloc(jsonPtr, jsonUtf8Length);

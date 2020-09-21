@@ -51,5 +51,5 @@ pub fn render(template: *mut c_char, data: *mut c_char) -> *mut c_char {
         Err(e) => panic!("Could not render: {}", e),
     }
 
-    unsafe { CString::from_vec_unchecked(html )}.into_raw()
+    unsafe { CString::from_vec_unchecked(html ) }.into_raw()
 }
