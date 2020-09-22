@@ -1,54 +1,57 @@
-from wasmer import Store, Module, Instance
+from wasmer import engine, Store, Module, Instance
+from wasmer_compiler_cranelift import Compiler
 from pathlib import Path
 
 base_path = Path(__file__).parent
 wasmFilePath = (base_path / '../../target/wasm32-unknown-unknown/debug/wasmer_template_renderer.wasm').resolve()
-
 wasm = open(wasmFilePath, 'rb').read()
 
-print(Instance)
+store = Store(engine.JIT(Compiler))
+module = Module(store, wasm)
+instance = Instance(module)
 
-instance = Instance(wasm)
+postTemplateFilePath = (base_path / '../shared/hbs/post.hbs').resolve()
+jsonFilePath = (base_path / '../shared/json/data.json').resolve()
 
-# Set the subject to greet.
-subject = bytes('Wasmer 🐍', 'utf-8')
-length_of_subject = len(subject) + 1
+postTemplate = open(postTemplateFilePath, 'r').read()
+json = open(jsonFilePath, 'r').read()
 
-# Allocate memory for the subject, and get a pointer to it.
-input_pointer = instance.exports.alloc(length_of_subject)
+postTemplateUtf8 = bytes(postTemplate, 'utf-8')
+jsonUtf8 = bytes(json, 'utf-8')
 
-print(input_pointer)
+postTemplateUtf8Length = len(postTemplateUtf8)
+jsonUtf8Length = len(jsonUtf8)
 
-print(instance.exports)
+postTemplatePtr = instance.exports.alloc(postTemplateUtf8Length)
+jsonPtr = instance.exports.alloc(jsonUtf8Length)
 
-# Write the subject into the memory.
-memory = instance.exports.memory.uint8_view(input_pointer)
-memory[0:length_of_subject] = subject
-memory[length_of_subject] = 0 # C-string terminates by NULL.
+postTemplateMemory = instance.exports.memory.uint8_view(postTemplatePtr)
+postTemplateMemory[0:postTemplateUtf8Length] = postTemplateUtf8
 
-# Run the `greet` function. Give the pointer to the subject.
-output_pointer = instance.exports.greet(input_pointer)
+jsonMemory = instance.exports.memory.uint8_view(jsonPtr)
+jsonMemory[0:jsonUtf8Length] = jsonUtf8
 
-# Read the result of the `greet` function.
-memory = instance.exports.memory.uint8_view(output_pointer)
-memory_length = len(memory)
+htmlPtr = instance.exports.render(postTemplatePtr, jsonPtr)
 
-output = []
+htmlMemory = instance.exports.memory.uint8_view(htmlPtr)
+htmlMemoryLength = len(htmlMemory)
+
+html = []
 nth = 0
 
-while nth < memory_length:
-    byte = memory[nth]
+while nth < htmlMemoryLength:
+    byte = htmlMemory[nth]
 
     if byte == 0:
         break
 
-    output.append(byte)
+    html.append(byte)
     nth += 1
 
-length_of_output = nth
+htmlLength = nth
 
-print(bytes(output).decode())
+print(bytes(html).decode())
 
-# Deallocate the subject, and the output.
-instance.exports.deallocate(input_pointer, length_of_subject)
-instance.exports.deallocate(output_pointer, length_of_output)
+instance.exports.dealloc(postTemplatePtr, postTemplateUtf8Length)
+instance.exports.dealloc(jsonPtr, jsonUtf8Length)
+instance.exports.dealloc(htmlPtr, htmlLength)
