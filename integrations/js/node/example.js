@@ -18,8 +18,8 @@ const path = require('path');
         const postTemplateUtf8 = (new TextEncoder()).encode(postTemplate);
         const jsonUtf8 = (new TextEncoder()).encode(json);
 
-        const postTemplateUtf8Length = postTemplateUtf8.length;
-        const jsonUtf8Length = jsonUtf8.length;
+        const postTemplateUtf8Length = postTemplateUtf8.length + 1;
+        const jsonUtf8Length = jsonUtf8.length + 1;
 
         const postTemplatePtr = main.alloc(postTemplateUtf8Length);
         const jsonPtr = main.alloc(jsonUtf8Length);
@@ -31,17 +31,22 @@ const path = require('path');
 
         const memory = new Uint8Array(main.memory.buffer, htmlPtr);
         const htmlBytes = [];
+        let nth = 0;
 
         for (const byte of memory) {
             if (byte === 0) break;
+
             htmlBytes.push(byte)
+            nth++
         }
 
+        const htmlLength = nth;
         const html = new TextDecoder().decode(new Uint8Array(htmlBytes));
         console.log(html)
 
         main.dealloc(postTemplatePtr, postTemplateUtf8Length);
         main.dealloc(jsonPtr, jsonUtf8Length);
+        main.dealloc(htmlPtr, htmlLength);
     } catch (e) {
         console.log(e);
     }

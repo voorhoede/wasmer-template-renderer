@@ -51,7 +51,6 @@ while nth < htmlMemoryLength:
     nth += 1
 
 htmlLength = nth
-
 print(bytes(html).decode())
 
 instance.exports.dealloc(postTemplatePtr, postTemplateUtf8Length)
