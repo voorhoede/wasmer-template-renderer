@@ -1,0 +1,13 @@
+apply plugin: 'application'
+
+mainClassName = 'hello.HelloGradle'
+
+repositories {
+    maven {
+        url  "https://dl.bintray.com/wasmer/wasmer-jni"
+    }
+}
+
+dependencies {
+    implementation 'org.wasmer:wasmer-jni-amd64-darwin:0.2.0'
+}
