@@ -2,7 +2,7 @@
 
 ## About
 
-Rendering Handlebars templates in different languages/environments with Wasm. 
+Rendering Handlebars templates in different languages/environments with Wasm, using Wasmer. 
 
 Credits to Remco for the idea.
 
