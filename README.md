@@ -14,6 +14,7 @@ Credits to Remco for the idea.
 
 ### Compiling Wasm
 * [Rust](https://www.rust-lang.org/tools/install)
+* [rustup](https://rustup.rs/)
 
 ### Node.js example
 * [Node.js](https://nodejs.org/en/)
@@ -25,18 +26,28 @@ Credits to Remco for the idea.
 
 ## Usage
 
-### Compile first the Wasm module
+### Compiling Wasm module
+1. Install Wasm template renderer dependencies
+```sh
+cargo install
+```
+
+2. Add wasm32-unknown-unknown target
 ```sh
 rustup target add wasm32-unknown-unknown
+```
+
+3. Compile Wasm module
+```sh
 cargo build --target wasm32-unknown-unknown
 ```
 
-### Node.js example
+### Running Node.js example
 ```sh
 node integrations/js/node/example.js
 ```
 
-### Python example
+### Running Python example
 ```sh
 python integrations/python/example.py
 ```
