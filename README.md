@@ -46,3 +46,15 @@ node integrations/js/node/example.js
 ```sh
 python integrations/python/example.py
 ```
+
+## Project structure
+.
+├── integrations            # Contains examples of different languages/environments using the Wasm template renderer
+│   ├── js                  # Js example in Node.js
+│   ├── python              # Python example
+│   └── shared              # Contains files that are shared between the languages
+│       ├── hbs             # Handlebars templates
+│       └── json            # JSON data
+├── src                     # Rust codebase for Wasm.
+│   └── lib.rs              # Contains the Wasm logic for rendering templates with Handlebars.
+└── Cargo.toml              # Contains Rust dependencies for Wasm.
