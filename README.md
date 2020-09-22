@@ -25,6 +25,12 @@ Credits to Remco for the idea.
 
 ## Usage
 
+### Compile first the Wasm module
+```sh
+rustup target add wasm32-unknown-unknown
+cargo build --target wasm32-unknown-unknown
+```
+
 ### Node.js example
 ```sh
 node integrations/js/node/example.js
