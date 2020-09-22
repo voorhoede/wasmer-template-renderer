@@ -27,17 +27,12 @@ Credits to Remco for the idea.
 ## Usage
 
 ### Compiling Wasm module
-1. Install Wasm template renderer dependencies
-```sh
-cargo install
-```
-
-2. Add wasm32-unknown-unknown target
+1. Add wasm32-unknown-unknown target
 ```sh
 rustup target add wasm32-unknown-unknown
 ```
 
-3. Compile Wasm module
+2. Compile Wasm module
 ```sh
 cargo build
 ```
