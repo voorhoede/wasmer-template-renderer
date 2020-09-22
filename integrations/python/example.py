@@ -19,17 +19,19 @@ json = open(jsonFilePath, 'r').read()
 postTemplateUtf8 = bytes(postTemplate, 'utf-8')
 jsonUtf8 = bytes(json, 'utf-8')
 
-postTemplateUtf8Length = len(postTemplateUtf8)
-jsonUtf8Length = len(jsonUtf8)
+postTemplateUtf8Length = len(postTemplateUtf8) + 1
+jsonUtf8Length = len(jsonUtf8) + 1
 
 postTemplatePtr = instance.exports.alloc(postTemplateUtf8Length)
 jsonPtr = instance.exports.alloc(jsonUtf8Length)
 
 postTemplateMemory = instance.exports.memory.uint8_view(postTemplatePtr)
 postTemplateMemory[0:postTemplateUtf8Length] = postTemplateUtf8
+postTemplateMemory[postTemplateUtf8Length] = 0 # C-string terminates by NULL.
 
 jsonMemory = instance.exports.memory.uint8_view(jsonPtr)
 jsonMemory[0:jsonUtf8Length] = jsonUtf8
+jsonMemory[jsonUtf8Length] = 0 # C-string terminates by NULL.
 
 htmlPtr = instance.exports.render(postTemplatePtr, jsonPtr)
 
