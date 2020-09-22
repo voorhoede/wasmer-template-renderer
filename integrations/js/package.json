@@ -2,9 +2,9 @@
   "name": "js",
   "version": "1.0.0",
   "description": "",
-  "main": "node/index.js",
+  "main": "node/example.js",
   "scripts": {
-    "watch": "nodemon node/index.js"
+    "watch": "nodemon node/example.js"
   },
   "keywords": [],
   "author": "",
