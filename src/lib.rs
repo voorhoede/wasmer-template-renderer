@@ -23,7 +23,7 @@ pub fn dealloc(pointer: *mut c_void, capacity: usize) {
     }
 }
 
-fn c_char_to_str<'a>(chars: *mut c_char) -> Result<String, Utf8Error> {
+fn c_char_to_str(chars: *mut c_char) -> Result<String, Utf8Error> {
     let chars = unsafe { CStr::from_ptr(chars).to_bytes().to_vec() };
     match str::from_utf8(&chars) {
         Ok(v) => Ok(v.to_string()),
