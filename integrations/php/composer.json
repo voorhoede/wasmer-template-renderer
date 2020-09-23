@@ -3,9 +3,9 @@
     "autoload": {
       "psr-4": {
         "Wasm\\": "lib/"
-      },
-      "files": [
-        "lib/Prelude.php"
-      ]
+      }
+    },
+    "require": {
+        "php-wasm/php-wasm": "^0.5.0"
     }
 }
