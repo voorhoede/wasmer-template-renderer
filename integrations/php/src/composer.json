@@ -1,0 +1,12 @@
+{
+    "name": "wasm",
+    "description": "Run WebAssembly binaries safely.",
+    "type": "extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Enderlin",
+            "email": "ivan.enderlin@hoa-project.net"
+        }
+    ]
+}
