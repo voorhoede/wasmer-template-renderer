@@ -41,7 +41,7 @@ pub fn render(template: *mut c_char, data: *mut c_char) -> *mut c_char {
     match serde_json::from_str(&data) {
         Ok(temp_json) => json = temp_json,
         Err(e) => panic!("Could not parse to json: {}", e),
-    };
+    }
 
     let handlebars = Handlebars::new();
     let html;
