@@ -19,7 +19,7 @@ pub fn alloc(size: usize) -> *mut c_void {
 #[no_mangle]
 pub fn dealloc(pointer: *mut c_void, capacity: usize) {
     unsafe {
-        let _ = Vec::from_raw_parts(pointer, 0, capacity);
+        Vec::from_raw_parts(pointer, 0, capacity);
     }
 }
 
