@@ -72,6 +72,7 @@ php -d extension=wasm example.php
     ├── integrations            # Contains examples of different languages/environments using the Wasm template renderer
     │   ├── js                  # Js example in Node.js
     │   ├── python              # Python example
+    │   ├── php                 # PHP example
     │   └── shared              # Contains files that are shared between the languages
     │       ├── hbs             # Handlebars templates
     │       └── json            # JSON data
