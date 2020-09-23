@@ -1,10 +1,5 @@
 {
     "name": "arashpaknezad/php",
-    "autoload": {
-      "psr-4": {
-        "Wasm\\": "lib/"
-      }
-    },
     "require": {
         "php-wasm/php-wasm": "^0.5.0"
     }
