@@ -4,13 +4,6 @@
         const {instance} = await WebAssembly.instantiateStreaming(fetchPromise);
         const main = instance.exports;
 
-        const blogTemplate = `
-            <div>
-                <h1>This is the blog of {{ blogger }}</h1>
-                {{> post }}
-            </div>
-        `;
-
         const postTemplate = `
             <div>
                 <h2>{{ title }}</h2>
