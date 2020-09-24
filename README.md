@@ -46,6 +46,22 @@ cargo build
 node integrations/js/node/example.js
 ```
 
+### Running web example
+1. Change directory
+```sh
+cd integrations/js
+```
+
+2. Install dependencies 
+```sh
+npm install
+```
+
+3. Run example
+```sh
+npm run web:dev
+```
+
 ### Running Python example
 ```sh
 python integrations/python/example.py
@@ -70,7 +86,7 @@ php -d extension=wasm example.php
 ## Project structure
     .
     ├── integrations            # Contains examples of different languages/environments using the Wasm template renderer
-    │   ├── js                  # Js examples for Node.js and browsers
+    │   ├── js                  # Js examples for Node.js and web
     │   ├── python              # Python example
     │   ├── php                 # PHP example
     │   └── shared              # Contains files that are shared between the languages
