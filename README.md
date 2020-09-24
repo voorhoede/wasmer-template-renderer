@@ -24,6 +24,10 @@ Credits to Remco for the idea.
 * [Wasmer 1.0.0a3](https://pypi.org/project/wasmer/1.0.0a3/)
 * [Wasmer Compiler Cranelift 1.0.0-alpha3](https://pypi.org/project/wasmer-compiler-cranelift/1.0.0-alpha3/)
 
+### PHP example
+* [PHP](https://www.php.net/downloads)
+* [Composer](https://getcomposer.org/download/)
+
 ## Usage
 
 ### Compiling Wasm module
@@ -47,11 +51,28 @@ node integrations/js/node/example.js
 python integrations/python/example.py
 ```
 
+### Running PHP example
+1. Change directory
+```sh
+cd integrations/php
+```
+
+2. Install dependencies 
+```sh
+composer install
+```
+
+3. Run example
+```sh
+php -d extension=wasm example.php
+```
+
 ## Project structure
     .
     ├── integrations            # Contains examples of different languages/environments using the Wasm template renderer
     │   ├── js                  # Js example in Node.js
     │   ├── python              # Python example
+    │   ├── php                 # PHP example
     │   └── shared              # Contains files that are shared between the languages
     │       ├── hbs             # Handlebars templates
     │       └── json            # JSON data
