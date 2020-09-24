@@ -16,7 +16,7 @@ Credits to Remco for the idea.
 * [Rust](https://www.rust-lang.org/tools/install)
 * [rustup](https://rustup.rs/)
 
-### Node.js example
+### Node.js & web examples
 * [Node.js](https://nodejs.org/en/)
 
 ### Python example
@@ -38,12 +38,28 @@ rustup target add wasm32-unknown-unknown
 
 2. Compile Wasm module
 ```sh
-cargo build
+cargo build --target wasm32-unknown-unknown
 ```
 
 ### Running Node.js example
 ```sh
 node integrations/js/node/example.js
+```
+
+### Running web example
+1. Change directory
+```sh
+cd integrations/js
+```
+
+2. Install dependencies 
+```sh
+npm install
+```
+
+3. Run example
+```sh
+npm run web:dev
 ```
 
 ### Running Python example
@@ -70,7 +86,7 @@ php -d extension=wasm example.php
 ## Project structure
     .
     ├── integrations            # Contains examples of different languages/environments using the Wasm template renderer
-    │   ├── js                  # Js example in Node.js
+    │   ├── js                  # Js examples for Node.js and web
     │   ├── python              # Python example
     │   ├── php                 # PHP example
     │   └── shared              # Contains files that are shared between the languages
