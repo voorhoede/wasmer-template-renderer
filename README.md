@@ -38,7 +38,7 @@ rustup target add wasm32-unknown-unknown
 
 2. Compile Wasm module
 ```sh
-cargo build
+cargo build --target wasm32-unknown-unknown
 ```
 
 ### Running Node.js example
