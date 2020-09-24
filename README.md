@@ -16,7 +16,7 @@ Credits to Remco for the idea.
 * [Rust](https://www.rust-lang.org/tools/install)
 * [rustup](https://rustup.rs/)
 
-### Node.js example
+### Node.js & web examples
 * [Node.js](https://nodejs.org/en/)
 
 ### Python example
