@@ -43,7 +43,8 @@ fn main() -> error::Result<()> {
         .expect("Function render not found");
     
     let html_ptr = render.call(post_template_ptr, json_ptr).unwrap();
-    let html = html_ptr.get_utf8_string_with_nul(&wasm_instance_memory).expect("test");
+    let html = html_ptr.get_utf8_string_with_nul(&wasm_instance_memory)
+        .expect("Couldn't get html string");
 
     println!("{}", &html);
     
