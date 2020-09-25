@@ -12,7 +12,7 @@ Credits to Remco for the idea.
 
 ## Prerequisites
 
-### Compiling Wasm
+### Compiling Wasm & Rust example
 * [Rust](https://www.rust-lang.org/tools/install)
 * [rustup](https://rustup.rs/)
 
@@ -83,12 +83,24 @@ composer install
 php -d extension=wasm example.php
 ```
 
+### Running Rust example
+1. Change directory
+```sh
+cd integrations/rust
+```
+
+2. Run example
+```sh
+cargo run
+```
+
 ## Project structure
     .
     ├── integrations            # Contains examples of different languages/environments using the Wasm template renderer
     │   ├── js                  # Js examples for Node.js and web
     │   ├── python              # Python example
     │   ├── php                 # PHP example
+    │   ├── rust                # Rust example
     │   └── shared              # Contains files that are shared between the languages
     │       ├── hbs             # Handlebars templates
     │       └── json            # JSON data
