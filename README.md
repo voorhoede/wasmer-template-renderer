@@ -64,7 +64,7 @@ npm run web:dev
 
 ### Running Python example
 ```sh
-python integrations/python/example.py
+python3 integrations/python/example.py
 ```
 
 ### Running PHP example
