@@ -1,0 +1,116 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "WasmerSharp/0.7.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/WasmerSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/WasmerSharp.dll": {}
+        },
+        "build": {
+          "build/netstandard2.0/WasmerSharp.targets": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux/native/libwasmer_runtime_c_api.so": {
+            "assetType": "native",
+            "rid": "linux"
+          },
+          "runtimes/osx/native/libwasmer_runtime_c_api.dylib": {
+            "assetType": "native",
+            "rid": "osx"
+          },
+          "runtimes/win7-x64/native/wasmer_runtime_c_api.dll": {
+            "assetType": "native",
+            "rid": "win7-x64"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "WasmerSharp/0.7.0": {
+      "sha512": "V9wxO0vrXVcSXhUmdhg4QAR9dAH1YfJ3sZ27bvqWqNJI+nRRiziR3WvFS/3UWqnrSydwyWvJfMKIZ6apI2WQxw==",
+      "type": "package",
+      "path": "wasmersharp/0.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/netstandard2.0/WasmerSharp.targets",
+        "lib/netstandard2.0/WasmerSharp.dll",
+        "lib/netstandard2.0/WasmerSharp.xml",
+        "runtimes/linux/native/libwasmer_runtime_c_api.so",
+        "runtimes/osx/native/libwasmer_runtime_c_api.dylib",
+        "runtimes/win7-x64/native/wasmer_runtime_c_api.dll",
+        "wasmersharp.0.7.0.nupkg.sha512",
+        "wasmersharp.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": [
+      "WasmerSharp >= 0.7.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/arashpaknezad/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/arashpaknezad/Desktop/wasmer-template-renderer/integrations/csharp/Example/Example.csproj",
+      "projectName": "Example",
+      "projectPath": "/Users/arashpaknezad/Desktop/wasmer-template-renderer/integrations/csharp/Example/Example.csproj",
+      "packagesPath": "/Users/arashpaknezad/.nuget/packages/",
+      "outputPath": "/Users/arashpaknezad/Desktop/wasmer-template-renderer/integrations/csharp/Example/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/arashpaknezad/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "dependencies": {
+          "WasmerSharp": {
+            "target": "Package",
+            "version": "[0.7.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.402/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
