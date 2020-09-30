@@ -31,7 +31,6 @@ RUN apt install gradle -y
 # Install Just
 RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sh -s -- -y
 
-# Todo: don't copy Dockerfile
 COPY . /home/wasmer-template-renderer
 
 WORKDIR /home/wasmer-template-renderer
