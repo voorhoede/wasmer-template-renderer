@@ -1,7 +1,5 @@
 FROM debian:10
 
-WORKDIR /home
-
 RUN apt update
 RUN apt install build-essential curl dirmngr apt-transport-https lsb-release ca-certificates -y
 
@@ -24,6 +22,7 @@ RUN pip3 install wasmer==1.0.0a3 wasmer-compiler-cranelift==1.0.0-alpha3
 RUN apt install php7.3-dev -y
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN rm composer-setup.php
 
 # Install Gradle
 RUN apt install gradle -y
@@ -31,18 +30,23 @@ RUN apt install gradle -y
 # Install Just
 RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sh -s -- -y
 
+# Copy project
 COPY . /home/wasmer-template-renderer
 
+# Set default working directory
 WORKDIR /home/wasmer-template-renderer
+
+# Compile Wasm module
 RUN cargo build --target wasm32-unknown-unknown
 
-WORKDIR /home/wasmer-template-renderer/integrations/php/vendor/php-wasm/php-wasm
-RUN just build
+# Install PHP dependencies
+RUN composer install -d integrations/php
 
-WORKDIR /home/wasmer-template-renderer/integrations/java
-RUN gradle build
+# Compile PHP extension   
+RUN just integrations/php/vendor/php-wasm/php-wasm/build
 
-WORKDIR /home/wasmer-template-renderer/integrations/rust
-RUN cargo build
+# Compile Java example
+RUN gradle build -p integrations/java
 
-WORKDIR /home/wasmer-template-renderer
+# Compile Rust example
+RUN cargo build --manifest-path integrations/rust/Cargo.toml

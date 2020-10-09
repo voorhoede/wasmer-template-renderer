@@ -1,13 +1,15 @@
 use wasmer_runtime::{error, imports, instantiate, Func, WasmPtr, Array};
 
+static WASM: &'static [u8] =
+    include_bytes!("../../../target/wasm32-unknown-unknown/debug/wasmer_template_renderer.wasm");
+
 type u8ArrayWasmPtr = WasmPtr<u8, Array>;
 
 fn main() -> error::Result<()> {
-    let wasm_bytes = include_bytes!("../../../target/wasm32-unknown-unknown/debug/wasmer_template_renderer.wasm");
-    
     let import_object = imports! {};
-    let instance = instantiate(wasm_bytes, &import_object)?;
-    
+
+    let instance = instantiate(WASM, &import_object)?;
+
     let wasm_instance_context = instance.context();
     let wasm_instance_memory = wasm_instance_context.memory(0);
 

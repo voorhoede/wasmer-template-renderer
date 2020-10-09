@@ -1,9 +1,9 @@
 {
   "title": "Rendering from Wasm",
   "likes": 5,
-  "public": false,
+  "likedBy": ["Remco", "Arash"],
+  "public": true,
   "data": {
     "html": "<p><strong>Wasm!</strong></p>"
-  },
-  "likedBy": ["Remco", "Arash"]
+  }
 }

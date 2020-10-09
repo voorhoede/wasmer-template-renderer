@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Example {
-    public static void main(String[] args) throws IOException {
+    public String render() throws Exception {
         var currentDir = Paths.get(".").toAbsolutePath().toString();
         var wasmFilePath = Paths.get(currentDir + "../../../../target/wasm32-unknown-unknown/debug/wasmer_template_renderer.wasm").normalize();
 
@@ -62,9 +62,19 @@ public class Example {
 
             html = output.toString();
         }
-        
-        System.out.println(html);
 
         instance.close();
+
+        return html;
+    }
+
+    public static void main(String[] args) {
+        try {
+            var example = new Example();
+            var html = example.render();
+            System.out.println(html);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
