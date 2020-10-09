@@ -8,6 +8,21 @@ const indexFilePath = path.resolve(__dirname, 'web/index.html')
 module.exports = {
     context: __dirname,
     entry: './web/example.js',
+    module: {
+        rules: [
+          {
+            test: /.js$/,
+            exclude: /node_modules/,
+            use: {
+              loader: "babel-loader"
+            }
+          },
+          {
+            test: /\.(html|hbs)$/i,
+            loader: 'html-loader',
+          },
+        ]
+      },
     plugins: [
         new CopyWebpackPlugin({
             patterns: [
@@ -20,5 +35,10 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: indexFilePath
         })
-    ]
+    ],
+    resolve: {
+        alias: {
+          shared: path.resolve(__dirname, 'path/to/file.js')
+        }
+      }
 };
