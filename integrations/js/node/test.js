@@ -10,6 +10,8 @@ const sharedDirPath = path.resolve(__dirname, '../../shared');
 const config = require(rootDirPath + '/config.json');
 const outputDirPath = rootDirPath + '/' + config.outputDir + lang + '/';
 const wasmFilePath = rootDirPath + '/target/wasm32-unknown-unknown/debug/wasmer_template_renderer.wasm';
+
+const blogTemplateFilePath = sharedDirPath + '/blog.hbs';
 const postTemplateFilePath = sharedDirPath + '/post.hbs';
 const postJsonFilePath = sharedDirPath + '/post.json';
 
@@ -25,12 +27,17 @@ const saveError = async (err) => {
 
 const run = async () => {
     try {
+        const blogTemplate = await fs.readFile(blogTemplateFilePath, "utf-8");
         const postTemplate = await fs.readFile(postTemplateFilePath, "utf-8");
         const json = await fs.readFile(postJsonFilePath, "utf-8");
         const wasmBytes = await fs.readFile(wasmFilePath);
 
         const templateRenderer = await new TemplateRenderer(wasmBytes).init();
-        const html = templateRenderer.render(postTemplate, json);
+
+        templateRenderer.registerPartial('post', postTemplate);
+        templateRenderer.registerPartial('blog', blogTemplate);
+
+        const html = templateRenderer.render('blog', json);
 
         await saveFile(outputDirPath, 'post.html', html);
     } catch (err) {

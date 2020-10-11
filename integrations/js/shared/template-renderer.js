@@ -12,50 +12,74 @@ class TemplateRenderer {
         return this;
     }
 
-    render(template, data) {
-        if(!this._wasmTemplateRenderer) {
+    registerPartial(name, template) {
+        if (!this._wasmTemplateRenderer) {
             throw Error('Initialize the template renderer!');
         }
 
+        const nameUtf8 = this._encodeString(name);
         const templateUtf8 = this._encodeString(template);
-        const dataUtf8 = this._encodeString(data);
-    
+
+        const nameUtf8Length = this._CStringLength(nameUtf8);
         const templateUtf8Length = this._CStringLength(templateUtf8);
-        const dataUtf8Length = this._CStringLength(dataUtf8);
-    
+
+        const namePtr = this._alloc(nameUtf8Length);
         const templatePtr = this._alloc(templateUtf8Length);
-        const dataPtr = this._alloc(dataUtf8Length);
-    
+
+        this._writeToBuffer(namePtr, nameUtf8Length, nameUtf8);
         this._writeToBuffer(templatePtr, templateUtf8Length, templateUtf8);
+
+        this._registerPartial(namePtr, templatePtr);
+
+        this._dealloc(namePtr, nameUtf8Length);
+        this._dealloc(templatePtr, templateUtf8Length);
+    }
+
+    render(name, data) {
+        if (!this._wasmTemplateRenderer) {
+            throw Error('Initialize the template renderer!');
+        }
+
+        const nameUtf8 = this._encodeString(name);
+        const dataUtf8 = this._encodeString(data);
+
+        const nameUtf8Length = this._CStringLength(nameUtf8);
+        const dataUtf8Length = this._CStringLength(dataUtf8);
+
+        const namePtr = this._alloc(nameUtf8Length);
+        const dataPtr = this._alloc(dataUtf8Length);
+
+        this._writeToBuffer(namePtr, nameUtf8Length, nameUtf8);
         this._writeToBuffer(dataPtr, dataUtf8Length, dataUtf8);
 
-        const htmlPtr = this._renderTemplate(templatePtr, dataPtr);
+        const htmlPtr = this._renderTemplate(namePtr, dataPtr);
+
         const { string: html, stringBytesLength } = this._getString(htmlPtr);
-    
-        this._dealloc(templatePtr, templateUtf8Length);
+
+        this._dealloc(namePtr, nameUtf8Length);
         this._dealloc(dataPtr, dataUtf8Length);
         this._dealloc(htmlPtr, stringBytesLength);
-    
+
         return html;
     }
 
     _isWebAssemblySupported() {
         try {
-          if (typeof WebAssembly === "object") {
-            const module = new WebAssembly.Module(new Uint8Array([0x00, 0x61,0x73, 0x6D, 0x01, 0x00, 0x00, 0x00]));
-            
-            if (module instanceof WebAssembly.Module) {
-              const moduleInstance = new WebAssembly.Instance(module);
-              return (moduleInstance instanceof WebAssembly.Instance);
+            if (typeof WebAssembly === "object") {
+                const module = new WebAssembly.Module(new Uint8Array([0x00, 0x61, 0x73, 0x6D, 0x01, 0x00, 0x00, 0x00]));
+
+                if (module instanceof WebAssembly.Module) {
+                    const moduleInstance = new WebAssembly.Instance(module);
+                    return (moduleInstance instanceof WebAssembly.Instance);
+                }
             }
-          }
-        } catch (err) {}
-      
+        } catch (err) { }
+
         return false;
     }
 
     _getWasmInstance() {
-        if(!this._isWebAssemblySupported()) {
+        if (!this._isWebAssemblySupported()) {
             throw Error("Webassembly is not supported.");
         }
 
@@ -86,22 +110,31 @@ class TemplateRenderer {
         this._wasmTemplateRenderer.dealloc(ptr, length);
     }
 
+    _nullTerminated(data) {
+        return new Uint8Array([...data, 0]);
+    }
+
     _writeToBuffer(ptr, length, data) {
-        new Uint8Array(this._wasmTemplateRenderer.memory.buffer, ptr, length).set(data);
+        const nullTerminatedData = this._nullTerminated(data);
+        new Uint8Array(this._wasmTemplateRenderer.memory.buffer, ptr, length).set(nullTerminatedData);
     }
 
     _readFromBuffer(ptr) {
         return new Uint8Array(this._wasmTemplateRenderer.memory.buffer, ptr);
     }
 
-    _renderTemplate(templatePtr, dataPtr) {
-        return this._wasmTemplateRenderer.render(templatePtr, dataPtr);
+    _registerPartial(namePtr, templatePtr) {
+        this._wasmTemplateRenderer.register_partial(namePtr, templatePtr);
+    }
+
+    _renderTemplate(namePtr, dataPtr) {
+        return this._wasmTemplateRenderer.render(namePtr, dataPtr);
     }
 
     _getString(ptr) {
         const memory = this._readFromBuffer(ptr);
         const stringBytes = [];
-    
+
         for (const byte of memory) {
             if (byte === 0) break;
             stringBytes.push(byte)
