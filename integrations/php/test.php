@@ -11,11 +11,11 @@ $blogTemplate = file_get_contents($blogTemplateFilePath);
 $postTemplate = file_get_contents($postTemplateFilePath);
 $json = file_get_contents($jsonFilePath);
 
-$instance = WasmHandlebars::create();
+$renderer = WasmHandlebars::create();
 
-$instance->registerPartial('blog', $blogTemplate);
-$instance->registerPartial('post', $postTemplate);
+$renderer->registerPartial('blog', $blogTemplate);
+$renderer->registerPartial('post', $postTemplate);
 
-$html = $instance->render('blog', $json);
+$html = $renderer->render('blog', $json);
 
 echo $html;
