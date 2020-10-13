@@ -7,11 +7,12 @@ use std::str;
 use std::str::Utf8Error;
 
 use lazy_static::lazy_static;
-use renderer::HandlebarsRenderer;
 use mut_static::MutStatic;
+use renderer::HandlebarsRenderer;
 
 lazy_static! {
-    pub static ref RENDERER: MutStatic<HandlebarsRenderer<'static>> = MutStatic::from(HandlebarsRenderer::new());
+    pub static ref RENDERER: MutStatic<HandlebarsRenderer<'static>> =
+        MutStatic::from(HandlebarsRenderer::new());
 }
 
 #[no_mangle]

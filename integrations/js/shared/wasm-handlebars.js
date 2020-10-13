@@ -1,4 +1,4 @@
-class TemplateRenderer {
+class WasmHandlebars {
     _wasmSource;
     _wasmTemplateRenderer;
 
@@ -17,11 +17,11 @@ class TemplateRenderer {
             throw Error('Initialize the template renderer!');
         }
 
-        const nameUtf8 = this._encodeString(name);
-        const templateUtf8 = this._encodeString(template);
+        const nameUtf8 = WasmHandlebars._nullTerminated(name);
+        const templateUtf8 = WasmHandlebars._nullTerminated(template);
 
-        const nameUtf8Length = this._CStringLength(nameUtf8);
-        const templateUtf8Length = this._CStringLength(templateUtf8);
+        const nameUtf8Length = nameUtf8.length;
+        const templateUtf8Length = templateUtf8.length;
 
         const namePtr = this._alloc(nameUtf8Length);
         const templatePtr = this._alloc(templateUtf8Length);
@@ -40,11 +40,11 @@ class TemplateRenderer {
             throw Error('Initialize the template renderer!');
         }
 
-        const nameUtf8 = this._encodeString(name);
-        const dataUtf8 = this._encodeString(data);
+        const nameUtf8 = WasmHandlebars._nullTerminated(name);
+        const dataUtf8 = WasmHandlebars._nullTerminated(data);
 
-        const nameUtf8Length = this._CStringLength(nameUtf8);
-        const dataUtf8Length = this._CStringLength(dataUtf8);
+        const nameUtf8Length = nameUtf8.length;
+        const dataUtf8Length = dataUtf8.length;
 
         const namePtr = this._alloc(nameUtf8Length);
         const dataPtr = this._alloc(dataUtf8Length);
@@ -54,7 +54,7 @@ class TemplateRenderer {
 
         const htmlPtr = this._renderTemplate(namePtr, dataPtr);
 
-        const { string: html, stringBytesLength } = this._getString(htmlPtr);
+        const { string: html, stringBytesLength } = this._readString(htmlPtr);
 
         this._dealloc(namePtr, nameUtf8Length);
         this._dealloc(dataPtr, dataUtf8Length);
@@ -90,16 +90,12 @@ class TemplateRenderer {
         return WebAssembly.instantiate(this._wasmSource);
     }
 
-    _encodeString(string) {
+    static _encodeString(string) {
         return new TextEncoder().encode(string);
     }
 
-    _decodeString(bytes) {
+    static _decodeString(bytes) {
         return new TextDecoder().decode(new Uint8Array(bytes));
-    }
-
-    _CStringLength(string) {
-        return string.length + 1;
     }
 
     _alloc(length) {
@@ -110,13 +106,13 @@ class TemplateRenderer {
         this._wasmTemplateRenderer.dealloc(ptr, length);
     }
 
-    _nullTerminated(data) {
-        return new Uint8Array([...data, 0]);
+    static _nullTerminated(string) {
+        const utf8Encoded = WasmHandlebars._encodeString(string);
+        return new Uint8Array([...utf8Encoded, 0]);
     }
 
     _writeToBuffer(ptr, length, data) {
-        const nullTerminatedData = this._nullTerminated(data);
-        new Uint8Array(this._wasmTemplateRenderer.memory.buffer, ptr, length).set(nullTerminatedData);
+        new Uint8Array(this._wasmTemplateRenderer.memory.buffer, ptr, length).set(data);
     }
 
     _readFromBuffer(ptr) {
@@ -131,7 +127,7 @@ class TemplateRenderer {
         return this._wasmTemplateRenderer.render(namePtr, dataPtr);
     }
 
-    _getString(ptr) {
+    _readString(ptr) {
         const memory = this._readFromBuffer(ptr);
         const stringBytes = [];
 
@@ -141,10 +137,10 @@ class TemplateRenderer {
         }
 
         return {
-            string: this._decodeString(stringBytes),
+            string: WasmHandlebars._decodeString(stringBytes),
             stringBytesLength: stringBytes.length
         }
     }
 }
 
-module.exports = TemplateRenderer;
+module.exports = WasmHandlebars;

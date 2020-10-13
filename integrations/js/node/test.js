@@ -1,7 +1,7 @@
 const { promises: fs } = require("fs");
 const path = require('path');
 
-const TemplateRenderer = require('../shared/template-renderer');
+const WasmHandlebars = require('../shared/wasm-handlebars');
 
 const lang = 'js';
 
@@ -32,12 +32,13 @@ const run = async () => {
         const json = await fs.readFile(postJsonFilePath, "utf-8");
         const wasmBytes = await fs.readFile(wasmFilePath);
 
-        const templateRenderer = await new TemplateRenderer(wasmBytes).init();
+        const renderer = await new WasmHandlebars(wasmBytes).init();
 
-        templateRenderer.registerPartial('post', postTemplate);
-        templateRenderer.registerPartial('blog', blogTemplate);
+        renderer.registerPartial('post', postTemplate);
+        renderer.registerPartial('blog', blogTemplate);
 
-        const html = templateRenderer.render('blog', json);
+        const html = renderer.render('blog', json);
+        console.log(html)
 
         await saveFile(outputDirPath, 'post.html', html);
     } catch (err) {

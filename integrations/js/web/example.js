@@ -1,4 +1,4 @@
-const TemplateRenderer = require('../shared/template-renderer');
+const WasmHandlebars = require('../shared/wasm-handlebars');
 const blogTemplate = require('../../shared/blog.hbs');
 const postTemplate = require('../../shared/post.hbs');
 const json = require('../../shared/post.json');
@@ -6,12 +6,12 @@ const json = require('../../shared/post.json');
 const run = async () => {
     try {
         const fetchPromise = fetch('public/wasmer_template_renderer.wasm');
-        const templateRenderer = await new TemplateRenderer(fetchPromise).init();
+        const renderer = await new WasmHandlebars(fetchPromise).init();
 
-        templateRenderer.registerPartial('post', postTemplate);
-        templateRenderer.registerPartial('blog', blogTemplate);
+        renderer.registerPartial('post', postTemplate);
+        renderer.registerPartial('blog', blogTemplate);
 
-        const html = templateRenderer.render('blog', JSON.stringify(json));
+        const html = renderer.render('blog', JSON.stringify(json));
 
         const postElement = document.getElementById('post');
         postElement.innerHTML = html;

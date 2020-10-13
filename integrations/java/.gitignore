@@ -3,3 +3,5 @@
 .settings
 gradle
 .project
+.classpath
+bin
