@@ -128,14 +128,14 @@ public class WasmHandlebars {
 
         return new DecodedString(stringBytes.toString(), stringBytes.length());
     }
-}
 
-class DecodedString {
-    public String string;
-    public Integer stringBytesLength;
+    class DecodedString {
+        public String string;
+        public Integer stringBytesLength;
 
-    DecodedString(String string, Integer stringBytesLength) {
-        this.string = string;
-        this.stringBytesLength = stringBytesLength;
+        DecodedString(String string, Integer stringBytesLength) {
+            this.string = string;
+            this.stringBytesLength = stringBytesLength;
+        }
     }
 }

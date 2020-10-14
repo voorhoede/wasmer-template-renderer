@@ -21,7 +21,7 @@ const saveFile = async (path, filename, contents) => {
 };
 
 const saveError = async (err) => {
-    const errorFilename = path.join(lang + config.errorExt);
+    const errorFilename = lang + config.errorExt;
     await saveFile(outputDirPath, errorFilename, err.message);
 };
 
@@ -38,7 +38,6 @@ const run = async () => {
         renderer.registerPartial('blog', blogTemplate);
 
         const html = renderer.render('blog', json);
-        console.log(html)
 
         await saveFile(outputDirPath, 'post.html', html);
     } catch (err) {

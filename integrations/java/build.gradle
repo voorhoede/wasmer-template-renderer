@@ -6,10 +6,12 @@ repositories {
     maven {
         url  "https://dl.bintray.com/wasmer/wasmer-jni"
     }
+    mavenCentral()
 }
 
 dependencies {
     implementation "org.wasmer:wasmer-jni-" + inferWasmerJarAppendix() + ":0.2.0"
+    implementation "com.google.code.gson:gson:2.8.6"
 }
 
 String inferWasmerJarAppendix() {
