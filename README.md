@@ -29,6 +29,11 @@ Credits to Remco for the idea.
 ### PHP example
 * [PHP](https://www.php.net/downloads)
 * [Composer](https://getcomposer.org/download/)
+* [Just](https://github.com/casey/just)
+
+### Java example
+* [Java 11 JDK](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+* [Gradle](https://gradle.org/install/)
 
 ## Usage
 
@@ -42,6 +47,12 @@ rustup target add wasm32-unknown-unknown
 ```sh
 cargo build --target wasm32-unknown-unknown
 ```
+
+### Running Java example
+```sh
+gradle run -p integrations/java
+```
+Note: Currently only working on Linux because of a bug in wasmer.
 
 ### Running Node.js example
 ```sh
@@ -70,14 +81,14 @@ python3 integrations/python/example.py
 ```
 
 ### Running PHP example
-1. Change directory
+1. Install dependencies 
 ```sh
-cd integrations/php
+composer install -d integrations/php
 ```
 
-2. Install dependencies 
+2. Compile extension 
 ```sh
-composer install
+just integrations/php/vendor/php-wasm/php-wasm/build
 ```
 
 3. Run example
@@ -86,26 +97,41 @@ php -d extension=wasm example.php
 ```
 
 ### Running Rust example
-1. Change directory
 ```sh
-cd integrations/rust
-```
-
-2. Run example
-```sh
-cargo run
+cargo run --manifest-path integrations/rust/Cargo.toml
 ```
 
 ## Project structure
     .
-    ├── integrations            # Contains examples of different languages/environments using the Wasm template renderer
-    │   ├── js                  # Js examples for Node.js and web
-    │   ├── python              # Python example
-    │   ├── php                 # PHP example
-    │   ├── rust                # Rust example
-    │   └── shared              # Contains files that are shared between the languages
-    │       ├── hbs             # Handlebars templates
-    │       └── json            # JSON data
-    ├── src                     # Rust codebase for Wasm.
-    │   └── lib.rs              # Contains the Wasm logic for rendering templates with Handlebars.
-    └── Cargo.toml              # Contains Rust dependencies for Wasm.
+    ├── integrations                            # Examples of different languages/environments using the Wasm template renderer.
+    │   │
+    │   ├── java                                
+    │   │   └── ../wasmhandlebars               
+    │   │      ├── Test.java                    # Java example
+    │   │      └── WasmHandlebars.java          # Java class using the Wasm module and Wasmer to render Handlebars templates. 
+    │   │
+    │   ├── js                                  
+    │   │   ├── node                            # Node example
+    │   │   ├── shared                          # Contains a JS class that uses the Wasm module to render Handlebars templates.
+    │   │   └── web                             # Web example
+    │   │
+    │   ├── php                                 
+    │   │   ├── test.php                        # PHP example
+    │   │   └── WasmHandlebars.php              # PHP class that uses the Wasm module and Wasmer to render Handlebars templates.
+    │   │
+    │   ├── python                              
+    │   │   ├── test.py                         # Python example
+    │   │   └── wasm_handlebars.py              # Python class that uses the Wasm module and Wasmer to render Handlebars templates.
+    │   │
+    │   ├── rust                                
+    │   │   └── src                             
+    │   │      ├── main.rs                      # Rust example
+    │   │      └── WasmHandlebars.java          # Rust Struct (and Implementation) using the Wasm module and Wasmer to render Handlebars templates.
+    │   │
+    │   └── shared                              # Contains files (Handlebars templates and JSON data) that are used by the examples of the different languages.       │                 
+    ├── src                                     # Rust codebase for the Wasm template renderer.
+    │   ├── lib.rs                              # Contains functions that are used by the Wasm module to interop with other programming languages.
+    │   └── renderer.rs                         # Struct and Impl using handlebars-rust to register and render templates.
+    │   
+    └── Cargo.toml                              # Contains Rust dependencies for the Wasm module.
+    
