@@ -128,7 +128,8 @@ cargo run --manifest-path integrations/rust/Cargo.toml
     │   │      ├── main.rs                      # Rust example
     │   │      └── WasmHandlebars.java          # Rust Struct (and Implementation) using the Wasm module and Wasmer to render Handlebars templates.
     │   │
-    │   └── shared                              # Contains files (Handlebars templates and JSON data) that are used by the examples of the different languages.       │    
+    │   └── shared                              # Contains files (Handlebars templates and JSON data) that are used by the examples of the different languages.   
+    │
     ├── src                                     # Rust codebase for the Wasm template renderer.
     │   ├── lib.rs                              # Contains functions that are used by the Wasm module to interop with other programming languages.
     │   └── renderer.rs                         # Struct and Impl using handlebars-rust to register and render templates.
