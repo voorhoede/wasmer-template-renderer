@@ -3,13 +3,13 @@ import json
 import os
 from wasm_handlebars import WasmHandlebars
 
-lang = 'python'
+LANG = 'python'
 current_dir_path = Path(__file__).parent.resolve()
 root_dir_path = Path(current_dir_path, '../../').resolve()
 shared_dir_path = Path(current_dir_path, '../shared').resolve()
 config_file_path = Path(root_dir_path, 'config.json').resolve()
 config = json.load(open(config_file_path))
-output_dir_path = str(root_dir_path) + '/' + config['outputDir'] + lang
+output_dir_path = str(root_dir_path) + '/' + config['outputDir'] + LANG
 
 
 def saveFile(path: str, filename: str, contents: str):
@@ -23,7 +23,7 @@ def saveFile(path: str, filename: str, contents: str):
 
 
 def saveError(err: str):
-    filename = lang + config['errorExt']
+    filename = LANG + config['errorExt']
     saveFile(output_dir_path, filename, err)
 
 
