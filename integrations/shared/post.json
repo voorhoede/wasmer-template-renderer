@@ -1,8 +1,11 @@
 {
-  "blogger": "Arash",
+  "author": "Arash",
   "title": "Rendering from Wasm",
   "likes": 5,
-  "likedBy": ["Remco", "Arash"],
+  "likedBy": [
+    "Remco",
+    "Arash"
+  ],
   "public": true,
   "data": {
     "html": "<p><strong>Wasm!</strong></p>"
