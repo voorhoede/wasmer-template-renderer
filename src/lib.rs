@@ -11,7 +11,7 @@ use mut_static::MutStatic;
 use renderer::HandlebarsRenderer;
 
 lazy_static! {
-    pub static ref RENDERER: MutStatic<HandlebarsRenderer<'static>> =
+    static ref RENDERER: MutStatic<HandlebarsRenderer<'static>> =
         MutStatic::from(HandlebarsRenderer::new());
 }
 
