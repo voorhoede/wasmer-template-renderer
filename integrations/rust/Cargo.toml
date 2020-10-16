@@ -8,3 +8,5 @@ edition = "2018"
 
 [dependencies]
 wasmer-runtime = "0.17.1"
+lazy_static = "1.4.0"
+serde_json = "1.0"

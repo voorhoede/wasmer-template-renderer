@@ -1,3 +1,4 @@
+use std::error::Error;
 use std::str;
 use wasmer_runtime::{imports, instantiate, Array, Func, Instance, WasmPtr};
 
@@ -22,7 +23,7 @@ impl WasmHandlebars {
         WasmHandlebars::new(WASM)
     }
 
-    pub fn register_partial(&self, name: &str, template: &str) {
+    pub fn register_partial(&self, name: &str, template: &str) -> Result<(), Box<dyn Error>> {
         let name = WasmHandlebars::null_terminated(name);
         let template = WasmHandlebars::null_terminated(template);
 
@@ -35,13 +36,15 @@ impl WasmHandlebars {
         self.write_to_buffer(name_ptr, &name.as_slice());
         self.write_to_buffer(template_ptr, &template.as_slice());
 
-        self._register_partial(name_ptr, template_ptr);
+        self._register_partial(name_ptr, template_ptr)?;
 
         self.dealloc(name_ptr, name_length);
         self.dealloc(template_ptr, template_length);
+
+        Ok(())
     }
 
-    pub fn render(&self, name: &str, data: &str) -> &str {
+    pub fn render(&self, name: &str, data: &str) -> Result<&str, Box<dyn Error>> {
         let name = WasmHandlebars::null_terminated(name);
         let data = WasmHandlebars::null_terminated(data);
 
@@ -54,14 +57,14 @@ impl WasmHandlebars {
         self.write_to_buffer(name_ptr, &name.as_slice());
         self.write_to_buffer(data_ptr, &data.as_slice());
 
-        let html_ptr = self._render(name_ptr, data_ptr);
+        let html_ptr = self._render(name_ptr, data_ptr)?;
         let html = self.read_string(html_ptr);
 
         self.dealloc(name_ptr, name_length);
         self.dealloc(data_ptr, data_length);
         self.dealloc(html_ptr, html.len() as u32);
 
-        return html;
+        Ok(html)
     }
 
     fn null_terminated(string: &str) -> Vec<u8> {
@@ -100,22 +103,32 @@ impl WasmHandlebars {
         }
     }
 
-    fn _register_partial(&self, name_ptr: U8arrayWasmPtr, template_ptr: U8arrayWasmPtr) {
+    fn _register_partial(
+        &self,
+        name_ptr: U8arrayWasmPtr,
+        template_ptr: U8arrayWasmPtr,
+    ) -> Result<(), Box<dyn Error>> {
         let register_partial: Func<(U8arrayWasmPtr, U8arrayWasmPtr), ()> = self
             .wasm_handlebars
             .func("register_partial")
             .expect("Function register_partial not found");
 
-        register_partial.call(name_ptr, template_ptr).unwrap()
+        register_partial.call(name_ptr, template_ptr)?;
+        Ok(())
     }
 
-    fn _render(&self, name_ptr: U8arrayWasmPtr, data_ptr: U8arrayWasmPtr) -> U8arrayWasmPtr {
+    fn _render(
+        &self,
+        name_ptr: U8arrayWasmPtr,
+        data_ptr: U8arrayWasmPtr,
+    ) -> Result<U8arrayWasmPtr, Box<dyn Error>> {
         let render: Func<(U8arrayWasmPtr, U8arrayWasmPtr), U8arrayWasmPtr> = self
             .wasm_handlebars
             .func("render")
             .expect("Function render not found");
 
-        render.call(name_ptr, data_ptr).unwrap()
+        let html = render.call(name_ptr, data_ptr)?;
+        Ok(html)
     }
 
     fn read_string(&self, ptr: U8arrayWasmPtr) -> &str {

@@ -1,6 +1,6 @@
 {
-    "outputDir": "output/",
-    "dataExt": ".json",
-    "errorExt": ".error.log",
-    "templateExt": ".html"
-  }
+  "outputDir": "output/",
+  "dataExt": ".json",
+  "errorExt": ".error.log",
+  "templateExt": ".html"
+}

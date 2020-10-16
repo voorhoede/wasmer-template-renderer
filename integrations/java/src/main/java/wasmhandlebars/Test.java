@@ -32,9 +32,9 @@ public class Test {
             renderer.registerPartial("post", postTemplate);
 
             var html = renderer.render("blog", json);
-
-            Test.saveFile(directoriesPath.getOutputDirPath(), "post.html", html);
+            Test.saveFile(directoriesPath.outputDirPath, "post.html", html);
         } catch (Exception e) {
+            System.out.println(e);
             Test.saveError(e.getMessage());
         }
     }
@@ -54,8 +54,8 @@ public class Test {
         try {
             var config = Config.getInstance();
             var directoriesPath = DirectoriesPath.getInstance();
-            var errorFilename = Config.lang + config.getErrorExt();
-            Test.saveFile(directoriesPath.getOutputDirPath(), errorFilename, err);
+            var errorFilename = Config.LANG + config.errorExt;
+            Test.saveFile(directoriesPath.outputDirPath, errorFilename, err);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -63,40 +63,40 @@ public class Test {
 }
 
 class DirectoriesPath {
-    private static DirectoriesPath single_instance = null; 
+    private static DirectoriesPath instance = null; 
     public static final String currentDirPath = Paths.get(".").toAbsolutePath().toString();
     public static final String rootDirPath = Paths.get(DirectoriesPath.currentDirPath, "../..").normalize().toString();
     public static final String sharedDirPath = Paths.get(DirectoriesPath.rootDirPath, "/integrations/shared").normalize().toString();
-    private String outputDirPath;
+    public String outputDirPath;
+
+    private DirectoriesPath() {}
 
     private static DirectoriesPath create() throws FileNotFoundException {
         var directoriesPath = new DirectoriesPath();
         var config = Config.getInstance();
 
-        directoriesPath.outputDirPath = Paths.get(DirectoriesPath.rootDirPath, "/", config.getOutputDir(), Config.lang).toString();
+        directoriesPath.outputDirPath = Paths.get(DirectoriesPath.rootDirPath, "/", config.outputDir, Config.LANG).toString();
 
         return directoriesPath;
     }
 
     public static DirectoriesPath getInstance() throws FileNotFoundException {
-        if (DirectoriesPath.single_instance == null) 
-            DirectoriesPath.single_instance = DirectoriesPath.create();
+        if (DirectoriesPath.instance == null) 
+            DirectoriesPath.instance = DirectoriesPath.create();
   
-        return DirectoriesPath.single_instance; 
-    }
-
-    public String getOutputDirPath() {
-        return this.outputDirPath;
+        return DirectoriesPath.instance; 
     }
 }
 
 class Config {
-    private static Config single_instance = null;
-    public static final String lang = "java";
-    private String outputDir; 
-    private String dataExt; 
-    private String errorExt; 
-    private String templateExt; 
+    private static Config instance = null;
+    public static final String LANG = "java";
+    public String outputDir; 
+    public String dataExt; 
+    public String errorExt; 
+    public String templateExt; 
+
+    private Config() {}
 
     private static Config create() throws FileNotFoundException {
         var builder = new GsonBuilder(); 
@@ -111,25 +111,9 @@ class Config {
     }
 
     public static Config getInstance() throws FileNotFoundException {
-        if (Config.single_instance == null) 
-            Config.single_instance = Config.create();
+        if (Config.instance == null) 
+            Config.instance = Config.create();
   
-        return Config.single_instance; 
-    }
-
-    public String getOutputDir() {
-        return this.outputDir;
-    }
-
-    public String getDataExt() {
-        return this.dataExt;
-    }
-
-    public String getErrorExt() {
-        return this.errorExt;
-    }
-
-    public String getTemplateExt() {
-        return this.templateExt;
+        return Config.instance; 
     }
 }
