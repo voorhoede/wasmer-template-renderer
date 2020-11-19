@@ -7,23 +7,22 @@ const wasmFilePath = path.resolve(__dirname, './wasmer_template_renderer.wasm');
 const wasmBytes = fs.readFileSync(wasmFilePath);
 
 exports.handler = async (event) => {
-
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
   const { templates, render } = querystring.parse(event.body);
   
-  const renderer = await new WasmHandlebars(wasmBytes).init();
+  // const renderer = await new WasmHandlebars(wasmBytes).init();
 
-  templates.forEach(({name, template}) => (
-    renderer.registerPartial(name, template)
-  ));
+  // templates.forEach(({name, template}) => (
+  //   renderer.registerPartial(name, template)
+  // ));
 
-  const html = renderer.render(render.name, render.data);
+  // const html = renderer.render(render.name, render.data);
 
   return {
-    statusCsode: 200,
-    body: html,
+    statusCode: 200,
+    body: templates,
   };
 };
