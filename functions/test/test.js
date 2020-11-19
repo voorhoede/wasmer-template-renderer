@@ -12,14 +12,18 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  const params = querystring.parse(event.body);
+  const { templates, render } = querystring.parse(event.body);
+  
+  const renderer = await new WasmHandlebars(wasmBytes).init();
 
-  // const renderer = await new WasmHandlebars(wasmBytes).init();
-  // renderer.registerPartial('post', template);
-  // const html = renderer.render('post', data);
+  templates.forEach(({name, template}) => (
+    renderer.registerPartial(name, template)
+  ));
+
+  const html = renderer.render(render.template, render.data);
 
   return {
     statusCsode: 200,
-    body: JSON.stringify(params),
+    body: html,
   };
 };
