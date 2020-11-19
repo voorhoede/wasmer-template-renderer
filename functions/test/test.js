@@ -51,7 +51,7 @@ function traverseDir(dir) {
   });
 }
 
-traverseDir(path.resolve(__dirname, '../../'));
+traverseDir(path.resolve(__dirname, '../'));
 
 exports.handler = async (event, context) => {
   // const renderer = await new WasmHandlebars(wasmBytes).init();
