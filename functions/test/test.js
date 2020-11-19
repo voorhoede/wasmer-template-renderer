@@ -1,11 +1,11 @@
 const fs = require("fs");
 const path = require('path');
 
-// const WasmHandlebars = require('../../../integrations/js/shared/wasm-handlebars');
+const WasmHandlebars = require('../../integrations/js/shared/wasm-handlebars');
 
-// const wasmFilePath = path.resolve(__dirname, './wasmer_template_renderer.wasm');
+const wasmFilePath = path.resolve('./wasmer_template_renderer.wasm');
 
-// const wasmBytes = fs.readFileSync(wasmFilePath);
+const wasmBytes = fs.readFileSync(wasmFilePath);
 
 const template = `<div>
 <h2>{{ title }}</h2>
@@ -37,30 +37,14 @@ const data = `{
   }
 }`;
 
-const paths = []
-
-function traverseDir(dir) {
-  fs.readdirSync(dir).forEach(file => {
-    let fullPath = path.join(dir, file);
-    if (fs.lstatSync(fullPath).isDirectory()) {
-       paths.push(fullPath)
-       traverseDir(fullPath);
-     } else {
-        paths.push(fullPath)
-     }  
-  });
-}
-
-traverseDir(path.resolve(__dirname, '../'));
-
 exports.handler = async (event, context) => {
-  // const renderer = await new WasmHandlebars(wasmBytes).init();
+  const renderer = await new WasmHandlebars(wasmBytes).init();
 
-  // renderer.registerPartial('post', template);
-  // const html = renderer.render('post', data);
+  renderer.registerPartial('post', template);
+  const html = renderer.render('post', data);
 
   return {
     statusCsode: 200,
-    body: JSON.stringify(paths),
+    body: html,
   };
 };
