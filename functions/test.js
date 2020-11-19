@@ -21,7 +21,7 @@ function traverseDir(dir) {
   });
 }
 
-traverseDir(__dirname);
+traverseDir(Path.resolve(__dirname, '../../'));
 
 const template = `<div>
 <h2>{{ title }}</h2>
