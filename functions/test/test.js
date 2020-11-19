@@ -11,7 +11,7 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  const params = querystring.parse(event.body);
+  const params = JSON.parse(event.body);
   
   // const renderer = await new WasmHandlebars(wasmBytes).init();
 
