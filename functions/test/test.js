@@ -25,6 +25,6 @@ exports.handler = async (event) => {
 
   return {
     statusCode: 200,
-    body: html,
+    body: JSON.stringify(params),
   };
 };
