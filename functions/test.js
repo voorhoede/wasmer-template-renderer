@@ -21,14 +21,6 @@ function traverseDir(dir) {
 
 traverseDir(__dirname);
 
-getDirectories('test', function (err, res) {
-  if (err) {
-    console.log('Error', err);
-  } else {
-    console.log(res);
-  }
-});
-
 const template = `<div>
 <h2>{{ title }}</h2>
 <p>Likes: {{ likes }}</p>
@@ -60,13 +52,13 @@ const data = `{
 }`;
 
 exports.handler = async (event, context) => {
-  const renderer = await new WasmHandlebars(wasmBytes).init();
+  // const renderer = await new WasmHandlebars(wasmBytes).init();
 
-  renderer.registerPartial('post', template);
-  const html = renderer.render('post', data);
+  // renderer.registerPartial('post', template);
+  // const html = renderer.render('post', data);
 
   return {
     statusCode: 200,
-    body: html
+    body: 'html'
   };
 };
