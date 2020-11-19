@@ -1,10 +1,10 @@
-const { fs } = require("fs");
+const fs = require("fs");
 const path = require('path');
 
 const WasmHandlebars = require('../integrations/js/shared/wasm-handlebars');
 
 const wasmFilePath = path.resolve(__dirname, 
-  './target/wasm32-unknown-unknown/release/wasmer_template_renderer.wasm'
+  '../target/wasm32-unknown-unknown/release/wasmer_template_renderer.wasm'
 );
 
 const wasmBytes = fs.readFileSync(wasmFilePath);
