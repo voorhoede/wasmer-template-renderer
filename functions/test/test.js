@@ -1,50 +1,25 @@
 const fs = require("fs");
 const path = require('path');
+const querystring = require("querystring");
 
 const WasmHandlebars = require('../../integrations/js/shared/wasm-handlebars');
-
 const wasmFilePath = path.resolve(__dirname, './wasmer_template_renderer.wasm');
-
 const wasmBytes = fs.readFileSync(wasmFilePath);
 
-const template = `<div>
-<h2>{{ title }}</h2>
-<p>Likes: {{ likes }}</p>
-<ul>
-    {{#each likedBy}}
-        <li>{{this}}</li>
-    {{/each}}
-</ul>
-{{#if public}}
-    <p>This post is public</p>
-{{else}}
-    <p>This post is private</p>
-{{/if}}
-{{{ data.html }}}
-</div>`;
+exports.handler = async (event) => {
 
-const data = `{
-  "author": "Arash",
-  "title": "Rendering from Wasm",
-  "likes": 5,
-  "likedBy": [
-    "Remco",
-    "Arash"
-  ],
-  "public": true,
-  "data": {
-    "html": "<p><strong>Wasm!</strong></p>"
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
   }
-}`;
 
-exports.handler = async (event, context) => {
-  const renderer = await new WasmHandlebars(wasmBytes).init();
+  const params = querystring.parse(event.body);
 
-  renderer.registerPartial('post', template);
-  const html = renderer.render('post', data);
+  // const renderer = await new WasmHandlebars(wasmBytes).init();
+  // renderer.registerPartial('post', template);
+  // const html = renderer.render('post', data);
 
   return {
     statusCsode: 200,
-    body: html,
+    body: JSON.stringify(params),
   };
 };
