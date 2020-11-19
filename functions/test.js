@@ -7,6 +7,28 @@ const wasmFilePath = path.resolve('../wasmer_template_renderer.wasm');
 
 const wasmBytes = fs.readFileSync(wasmFilePath);
 
+function traverseDir(dir) {
+  fs.readdirSync(dir).forEach(file => {
+    let fullPath = path.join(dir, file);
+    if (fs.lstatSync(fullPath).isDirectory()) {
+       console.log(fullPath);
+       traverseDir(fullPath);
+     } else {
+       console.log(fullPath);
+     }  
+  });
+}
+
+traverseDir(__dirname);
+
+getDirectories('test', function (err, res) {
+  if (err) {
+    console.log('Error', err);
+  } else {
+    console.log(res);
+  }
+});
+
 const template = `<div>
 <h2>{{ title }}</h2>
 <p>Likes: {{ likes }}</p>
