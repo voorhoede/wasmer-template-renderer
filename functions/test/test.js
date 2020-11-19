@@ -18,7 +18,10 @@ exports.handler = async (event) => {
     renderer.registerPartial(name, template)
   ));
 
-  const html = renderer.render(params.render.name, params.render.data);
+  const html = renderer.render(
+    params.render.name, 
+    JSON.stringify(params.render.data)
+  );
 
   return {
     statusCode: 200,
