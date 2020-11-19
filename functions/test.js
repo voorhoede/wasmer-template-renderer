@@ -3,7 +3,7 @@ const path = require('path');
 
 const WasmHandlebars = require('../integrations/js/shared/wasm-handlebars');
 
-const wasmFilePath = path.resolve('wasmer_template_renderer.wasm');
+const wasmFilePath = path.resolve('./wasmer_template_renderer.wasm');
 
 const wasmBytes = fs.readFileSync(wasmFilePath);
 
