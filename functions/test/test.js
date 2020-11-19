@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require('path');
-const querystring = require("querystring");
 
 const WasmHandlebars = require('../../integrations/js/shared/wasm-handlebars');
 const wasmFilePath = path.resolve(__dirname, './wasmer_template_renderer.wasm');
