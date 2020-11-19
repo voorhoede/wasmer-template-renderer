@@ -13,13 +13,13 @@ exports.handler = async (event) => {
 
   const params = JSON.parse(event.body);
   
-  // const renderer = await new WasmHandlebars(wasmBytes).init();
+  const renderer = await new WasmHandlebars(wasmBytes).init();
 
-  // templates.forEach(({name, template}) => (
-  //   renderer.registerPartial(name, template)
-  // ));
+  templates.forEach(({name, template}) => (
+    renderer.registerPartial(name, template)
+  ));
 
-  // const html = renderer.render(render.name, render.data);
+  const html = renderer.render(render.name, render.data);
 
   return {
     statusCode: 200,
