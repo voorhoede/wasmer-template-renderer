@@ -7,14 +7,16 @@ const WasmHandlebars = require('../integrations/js/shared/wasm-handlebars');
 
 // const wasmBytes = fs.readFileSync(wasmFilePath);
 
+const paths = [];
+
 function traverseDir(dir) {
   fs.readdirSync(dir).forEach(file => {
     let fullPath = path.join(dir, file);
     if (fs.lstatSync(fullPath).isDirectory()) {
-       console.log(fullPath);
+       paths.push(fullPath)
        traverseDir(fullPath);
      } else {
-       console.log(fullPath);
+        paths.push(fullPath)
      }  
   });
 }
@@ -59,6 +61,6 @@ exports.handler = async (event, context) => {
 
   return {
     statusCode: 200,
-    body: 'html'
+    body: JSON.stringify(paths)
   };
 };
