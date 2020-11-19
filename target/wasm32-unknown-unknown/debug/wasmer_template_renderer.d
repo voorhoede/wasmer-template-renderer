@@ -1,1 +1,0 @@
-/Users/arashpaknezad/Desktop/wasmer-template-renderer/target/wasm32-unknown-unknown/debug/wasmer_template_renderer.wasm: /Users/arashpaknezad/Desktop/wasmer-template-renderer/src/lib.rs /Users/arashpaknezad/Desktop/wasmer-template-renderer/src/renderer.rs
