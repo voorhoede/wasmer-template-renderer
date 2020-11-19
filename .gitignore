@@ -2,4 +2,4 @@ node_modules
 target
 .vscode
 .idea
-.DS_Store
+**/.DS_Store
