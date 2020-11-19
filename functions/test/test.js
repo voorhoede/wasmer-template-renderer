@@ -14,11 +14,11 @@ exports.handler = async (event) => {
   
   const renderer = await new WasmHandlebars(wasmBytes).init();
 
-  templates.forEach(({name, template}) => (
+  params.templates.forEach(({name, template}) => (
     renderer.registerPartial(name, template)
   ));
 
-  const html = renderer.render(render.name, render.data);
+  const html = renderer.render(params.render.name, params.render.data);
 
   return {
     statusCode: 200,
