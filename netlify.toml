@@ -1,2 +1,3 @@
 [build]
   functions = "functions/"
+  command = "bash netlify.sh && cp target/wasm32-unknown-unknown/debug/wasmer_template_renderer.wasm functions/"
