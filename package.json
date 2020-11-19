@@ -1,0 +1,15 @@
+{
+  "name": "netlify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:lambda": "netlify-lambda build integrations/js/netlify/functions"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "netlify-lambda": "^2.0.1"
+  }
+}

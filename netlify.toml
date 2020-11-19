@@ -1,0 +1,3 @@
+[build]
+  base = "integrations/js/netlify"
+  functions = "functions/"

@@ -16,3 +16,4 @@ integrations/js/dist
 integrations/php/vendor
 
 integrations/rust/target
+node_modules
