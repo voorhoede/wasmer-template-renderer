@@ -20,7 +20,7 @@ exports.handler = async (event) => {
     renderer.registerPartial(name, template)
   ));
 
-  const html = renderer.render(render.template, render.data);
+  const html = renderer.render(render.name, render.data);
 
   return {
     statusCsode: 200,
