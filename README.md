@@ -4,8 +4,6 @@
 
 Rendering Handlebars templates in different languages/environments with Wasm, using Wasmer. 
 
-Credits to Remco for the idea.
-
 ## Built With
 * [handlebars-rust](https://github.com/sunng87/handlebars-rust)
 * [serde-json](https://github.com/serde-rs/json)
